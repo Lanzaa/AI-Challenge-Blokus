@@ -33,12 +33,18 @@ class Game():
         self.board = [[0 for i in range(20)] for j in range(20)]
         self.turn = 0
         self.players = { i: pieces.keys() for i in range(4) }
+        print self.players
         self.start_corners = [[0,0], [19,0], [19,19], [0,19]]
         self.curr_turn = 1
+        
+    def hasPiece(self, player, key):
+        if (self.players[player-1].count(key) == 0):
+            return False
+        return True
     
     def play(self, player, piece, rotations, flipped, location):
-        #if (1 != self.players.get(player).count(piece)):
-        #    return False
+#        if (self.players[player+1].index(piece) != -1):
+#            return False
         p = translatePiece(piece, rotations, flipped, location)
         corner = False
         

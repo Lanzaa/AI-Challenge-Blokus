@@ -106,11 +106,17 @@ class BoardContainer(wx.Panel):
             self.curPiece += 1
             self.curPiece %= len(pieces)
         elif keycode == wx.WXK_SPACE:
-            success = self.game.play(self.game.curr_turn, pieces[pieces.keys()[self.curPiece]], self.curR, self.curFlip, [self.curX,self.curY])
-            if success:
-                self.game.curr_turn += 1
-                if self.game.curr_turn > 4:
-                    self.game.curr_turn = 1
+            piece_key = pieces.keys()[self.curPiece]
+            player = self.game.curr_turn
+            
+            
+            if self.game.hasPiece(player, piece_key):
+                success = self.game.play(player, pieces[piece_key], self.curR, self.curFlip, [self.curX,self.curY])
+                if success:
+                    self.game.players[player-1].remove(piece_key)
+                    self.game.curr_turn += 1
+                    if self.game.curr_turn > 4:
+                        self.game.curr_turn = 1
         else:
             event.Skip()
         
