@@ -21,6 +21,22 @@ pieces = {'5W': [[1, 0], [2, 0], [0, 1], [1, 1], [0, 2]],
           '5P': [[0, 0], [1, 0], [2, 0], [0, 1], [1, 1]],                                 
           '2I': [[0, 0], [1, 0]],                                                         
           '1O': [[0, 0]]}
+
+class Playa():
+    def __init__(self, num):
+        self.number = num
+        self.pieces = pieces.keys()
+        self.piece_index = 0
+
+    def nextPiece():
+        piece_index = (piece_index + 1) % len(pieces)
+        return piece_index
+
+    def hasPiece(self, key):
+        if (self.pieces.count(key) == 0):
+            return False
+        return True
+
           
 class Game():
     def place(self, player, tiles):
@@ -32,19 +48,30 @@ class Game():
     def __init__(self):
         self.board = [[0 for i in range(20)] for j in range(20)]
         self.turn = 0
-        self.players = { i: pieces.keys() for i in range(4) }
+        self.players = { i: Playa(i) for i in range(4) }
         print self.players
         self.start_corners = [[0,0], [19,0], [19,19], [0,19]]
         self.curr_turn = 1
         
     def hasPiece(self, player, key):
+        return self.players[player-1].hasPiece(key)
         if (self.players[player-1].count(key) == 0):
             return False
         return True
     
-    def play(self, player, piece, rotations, flipped, location):
+    def play(self, player, piece_key, rotations, flipped, location):
+
+        if (self.canPlay(player, pieces[piece_key], rotations, flipped, location)):
+            self.players[player-1].pieces.remove(piece_key)
+        else:
+            return False
+
+        return True
+
 #        if (self.players[player+1].index(piece) != -1):
 #            return False
+    
+    def canPlay(self, player, piece, rotations, flipped, location):
         p = translatePiece(piece, rotations, flipped, location)
         corner = False
         

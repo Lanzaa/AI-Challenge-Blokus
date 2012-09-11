@@ -111,9 +111,8 @@ class BoardContainer(wx.Panel):
             
             
             if self.game.hasPiece(player, piece_key):
-                success = self.game.play(player, pieces[piece_key], self.curR, self.curFlip, [self.curX,self.curY])
+                success = self.game.play(player, piece_key, self.curR, self.curFlip, [self.curX,self.curY])
                 if success:
-                    self.game.players[player-1].remove(piece_key)
                     self.game.curr_turn += 1
                     if self.game.curr_turn > 4:
                         self.game.curr_turn = 1
